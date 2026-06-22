@@ -12,7 +12,9 @@ export async function GET() {
 
   try {
     // 2. Încărcăm librăria hardware DINAMIC (doar când rulează pe PC-ul tău local de la spălătorie)
-    const { SerialPort } = await import('serialport');
+
+      const { SerialPort } = await import('serialport') as any;
+
     const ports = await SerialPort.list();
     
     // Scanăm cipurile convertoarelor USB-CAN standard (CH340, FTDI, Silicon Labs)
