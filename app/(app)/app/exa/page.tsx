@@ -17,42 +17,24 @@ export default function KioskDashboard() {
   // Auto-scroll consolă la apariția logurilor noi
   useEffect(() => { consoleEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [logs]);
 
-  // Handler unic pentru conectare (suportă mod manual și mod automat silențios)
-  const handleConnect = useCallback(async (isAuto = false) => {
+  // Handler conectare hardware din browser
+  const handleConnect = async () => {
     try {
-      if (!isAuto) {
-        addLog('Aștept selectarea adaptorului USB-CAN din fereastra browserului...', 'info');
-      }
-
-      // Conectare prin librăria de client din browser
-      const deviceInfo = await exaRobot.connect(115200);
+      addLog('Aștept selectarea adaptorului USB-CAN din fereastra browserului...', 'info');
+      await exaRobot.connect(115200);
       
-      if (deviceInfo) {
-        setConnected(true);
-        const logMsg = isAuto 
-          ? `Re-conectare automată reușită! [Vendor: 0x${deviceInfo.usbVendorId.toString(16).toUpperCase()}]` 
-          : 'Interfață hardware atașată cu succes direct în browser!';
-        addLog(logMsg, 'success');
+      setConnected(true);
+      addLog('Interfață hardware atașată cu succes direct în browser!', 'success');
 
-        // Monitorizare deconectare fizică a cablului USB
-        exaRobot.onDisconnect(() => {
-          setConnected(false);
-          addLog('Cablul USB-CAN a fost scos fizic din calculator!', 'error');
-        });
-      }
+      // Detectare deconectare fizică a cablului USB
+      exaRobot.onDisconnect(() => {
+        setConnected(false);
+        addLog('Cablul USB-CAN a fost scos fizic din calculator!', 'error');
+      });
     } catch (err: any) {
-      // Dacă este eroare în mod manual (click), o afișăm pe ecran
-      if (!isAuto) {
-        addLog(`Conexiune avortată: ${err.message}`, 'error');
-      }
+      addLog(`Conexiune avortată: ${err.message}`, 'error');
     }
-  }, [addLog]);
-
-  // TRIGGER AUTOMAT LA PORNIREA PAGINII (REFRESH / DESCHIDERE)
-  useEffect(() => {
-    // Încearcă re-conectarea automată silențioasă imediat la încărcare
-    handleConnect(true);
-  }, [handleConnect]);
+  };
 
   // Handler trimitere comenzi rapide (Bytes)
   const handleExecute = async (hexValue: number, comment?: string) => {
@@ -74,7 +56,7 @@ export default function KioskDashboard() {
     setCmdInput('');
     if (!cleanCmd) return;
     if (cleanCmd === 'clear') return setLogs([]);
-    if (cleanCmd === 'connect') return handleConnect(false);
+    if (cleanCmd === 'connect') return handleConnect();
     
     const parsedHex = parseInt(cleanCmd.startsWith('0x') ? cleanCmd : `0x${cleanCmd}`, 16);
     if (!isNaN(parsedHex) && parsedHex >= 0 && parsedHex <= 255) {
@@ -91,7 +73,7 @@ export default function KioskDashboard() {
           <h1 style={{ margin: 0, fontSize: '24px', letterSpacing: '1px' }}>EXA360 // WEB DRIVER CORE_</h1>
           <p style={{ margin: '4px 0 0 0', color: '#525a6c', fontSize: '11px' }}>WEB SERIAL CONNECTION // LOCALHOST TEST PROTOCOL</p>
         </div>
-        <button onClick={() => handleConnect(false)} style={{ background: connected ? '#062010' : '#240c0c', color: connected ? '#33ff77' : '#ff4444', border: `1px solid ${connected ? '#00ff66' : '#ff4444'}`, padding: '8px 16px', cursor: 'pointer', fontSize: '12px', fontWeight: 'bold' }}>
+        <button onClick={handleConnect} style={{ background: connected ? '#062010' : '#240c0c', color: connected ? '#33ff77' : '#ff4444', border: `1px solid ${connected ? '#00ff66' : '#ff4444'}`, padding: '8px 16px', cursor: 'pointer', fontSize: '12px', fontWeight: 'bold' }}>
           {connected ? '● HARDWARE OPERATIONAL' : '🔌 CONNECT TO USB-CAN'}
         </button>
       </header>

@@ -1,6 +1,9 @@
 /**
  * EXA360 Client-Side Hardware Driver (Web Serial API)
  * Rulează exclusiv în browserul local (Chrome / Edge).
+ * lib/exa-360-client.ts
+ * 
+ * Acest modul permite aplicației web să comunice direct cu microcontrolerul STM32 prin adaptorul USB-CAN.
  */
 
 export class Exa360ClientDriver {
