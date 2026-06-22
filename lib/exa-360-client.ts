@@ -1,68 +1,68 @@
 /**
  * EXA360 Client-Side Hardware Driver (Web Serial API)
- * Rulează exclusiv în browserul local (Chrome / Edge).
+ * Management avansat pentru identificare unică per stație.
  */
 
 export class Exa360ClientDriver {
   private port: any | null = null;
   private writer: any | null = null;
 
+  // Filtre opționale pentru a recunoaște doar adaptorul tău oficial (ex: cipuri CH340 sau FTDI)
+  // Dacă afli Vendor ID-ul (usbVendorId) de la adaptorul tău, îl punem aici pentru filtrare automată strictă
+  private hardwareFilters = [
+    { usbVendorId: 0x1a86 }, // CH340 / CH341 chipsets
+    { usbVendorId: 0x0403 }, // FTDI chipsets
+    { usbVendorId: 0x10c4 }  -- Silicon Labs CP210x chipsets
+  ];
+
   /**
-   * Cere permisiunea utilizatorului și deschide portul COM selectat
+   * Conectează stația curentă la adaptorul USB-CAN mapat
    */
-  async connect(baudRate: number = 115200): Promise<string> {
-    if (typeof window === 'undefined') return 'SERVER_ENVIRONMENT';
+  async connect(baudRate: number = 115200): Promise<any> {
+    if (typeof window === 'undefined') return null;
 
     if (!('serial' in navigator)) {
-      throw new Error('[exa-360] Web Serial API nu este suportat de acest browser. Folosește Google Chrome sau Microsoft Edge!');
+      throw new Error('Web Serial API nu este suportat!');
     }
 
-    // Deschide fereastra nativă a browserului pentru selectarea adaptorului USB
-    this.port = await (navigator as any).serial.requestPort();
+    // 1. MANAGEMENT AUTOMAT: Verificăm dacă browserul are DEJA o stație salvată și autorizată în trecut
+    const porturiSalvate = await (navigator as any).serial.getPorts();
     
-    // Deschide portul fizic cu viteza setată în STM32
+    if (porturiSalvate.length > 0) {
+      // Dacă am mai aprobat acest adaptor în trecut, browserul se conectează AUTOMAT, fără ferestre pop-up!
+      this.port = porturiSalvate[0];
+      console.log("⚡ [Exa360] Re-conectare automată la stația salvată.");
+    } else {
+      // Dacă este prima pornire în acea stație, cerem aprobarea manuală o singură dată
+      this.port = await (navigator as any).serial.requestPort({ filters: this.hardwareFilters });
+    }
+    
     await this.port.open({ baudRate });
     
-    return 'CONNECTED';
+    // Extragem ID-urile hardware unice pentru a ști exact ce stație gestionăm
+    const { usbVendorId, usbProductId } = this.port.getInfo();
+    return { usbVendorId, usbProductId, path: "USB_CAN_BUS_ACTIVE" };
   }
 
   /**
-   * Trimite un singur octet (Byte) direct prin adaptorul USB-CAN către STM32
+   * Trimite octetul de execuție direct pe fir
    */
   async sendByte(hexValue: number): Promise<void> {
     if (!this.port || !this.port.writable) {
-      throw new Error('[exa-360] Transmisie eșuată: Portul serial nu este activ sau deschis!');
+      throw new Error('Portul serial este închis sau indisponibil!');
     }
 
     this.writer = this.port.writable.getWriter();
-    const data = new Uint8Array([hexValue]); // Împachetează numărul în format binar pur (1 Byte)
+    const data = new Uint8Array([hexValue]);
 
     try {
       await this.writer.write(data);
     } finally {
-      // Eliberează portul imediat pentru a fi disponibil la următoarea comandă
       this.writer.releaseLock();
       this.writer = null;
     }
   }
 
-  /**
-   * Închide conexiunea hardware în siguranță
-   */
-  async disconnect(): Promise<void> {
-    if (this.writer) {
-      this.writer.releaseLock();
-      this.writer = null;
-    }
-    if (this.port) {
-      await this.port.close();
-      this.port = null;
-    }
-  }
-
-  /**
-   * Ascultă dacă dispozitivul este scos fizic din mufa USB (Hot-Plug)
-   */
   onDisconnect(callback: () => void): void {
     if (this.port) {
       this.port.addEventListener('disconnect', callback);
@@ -70,5 +70,4 @@ export class Exa360ClientDriver {
   }
 }
 
-// Exportăm o instanță unică globală (SaaS Client Singleton)
 export const exaRobot = new Exa360ClientDriver();
