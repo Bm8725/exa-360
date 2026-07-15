@@ -2,9 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { IxCard, IxCardContent, IxTypography, IxIcon, IxKeyValue, IxButton } from '@siemens/ix-react';
-import { defineCustomElements } from '@siemens/ix/loader';
-
-if (typeof window !== 'undefined') defineCustomElements();
 
 export default function SCADASimplu() {
   const [volume, setVolume] = useState(11.45);
@@ -25,7 +22,8 @@ export default function SCADASimplu() {
       
       {/* HEADER PANOU */}
       <div style={{ backgroundColor: '#ffffff', padding: '16px', borderRadius: '8px', marginBottom: '24px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-        <IxTypography variant="h2" format="bold" style={{ color: '#005f73' }}>🎛️ EXA360 // SMART CAR WASH</IxTypography>
+        {/* CORECTAT: Schimbat format="bold" în format="display" și adăugat fontWeight în style */}
+        <IxTypography variant="h2" format="display" style={{ color: '#005f73', fontWeight: 'bold' }}>🎛️ EXA360 // SMART CAR WASH</IxTypography>
         <IxTypography variant="body-sm" style={{ color: '#6c757d' }}>Control de la distanță panou simplificat • Status: Online</IxTypography>
       </div>
 
