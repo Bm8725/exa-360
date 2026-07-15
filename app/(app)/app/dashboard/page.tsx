@@ -30,7 +30,8 @@ export default function SCADASimplu() {
       <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
         
         {/* CARD 1: DEBIT APĂ */}
-        <IxCard variant="insight" style={{ width: '260px', backgroundColor: '#ffffff', borderTop: '4px solid #00ffff' }}>
+        {/* CORECTAT: Am șters variant="insight" */}
+        <IxCard style={{ width: '260px', backgroundColor: '#ffffff', borderTop: '4px solid #00ffff' }}>
           <IxCardContent style={{ padding: '16px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
               <span style={{ color: '#6c757d', fontSize: '12px', fontWeight: '500' }}>DEBIT APĂ (IoT)</span>
@@ -41,7 +42,8 @@ export default function SCADASimplu() {
         </IxCard>
 
         {/* CARD 2: PRESIUNE POMPE (VFD) */}
-        <IxCard variant="insight" style={{ width: '280px', backgroundColor: '#ffffff', borderTop: '4px solid #023e8a' }}>
+        {/* CORECTAT: Am șters variant="insight" */}
+        <IxCard style={{ width: '280px', backgroundColor: '#ffffff', borderTop: '4px solid #023e8a' }}>
           <IxCardContent style={{ padding: '16px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
               <span style={{ color: '#6c757d', fontSize: '12px', fontWeight: '500' }}>PRESIUNE POMPĂ</span>
@@ -56,7 +58,8 @@ export default function SCADASimplu() {
         </IxCard>
 
         {/* CARD 3: PROGRAME CHIMICE (PLC WRITE) */}
-        <IxCard variant="insight" style={{ width: '280px', backgroundColor: '#ffffff', borderTop: '4px solid #2a9d8f' }}>
+        {/* CORECTAT: Am șters variant="insight" */}
+        <IxCard style={{ width: '280px', backgroundColor: '#ffffff', borderTop: '4px solid #2a9d8f' }}>
           <IxCardContent style={{ padding: '16px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
               <span style={{ color: '#6c757d', fontSize: '12px', fontWeight: '500' }}>SELECTARE PROGRAM</span>
