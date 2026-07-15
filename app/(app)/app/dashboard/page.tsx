@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { IxCard, IxCardContent, IxTypography, IxIcon, IxKeyValue, IxButton } from '@siemens/ix-react';
+import { IxCard, IxCardContent, IxIcon, IxKeyValue, IxButton } from '@siemens/ix-react';
 
 export default function SCADASimplu() {
   const [volume, setVolume] = useState(11.45);
@@ -22,9 +22,8 @@ export default function SCADASimplu() {
       
       {/* HEADER PANOU */}
       <div style={{ backgroundColor: '#ffffff', padding: '16px', borderRadius: '8px', marginBottom: '24px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-        {/* CORECTAT: Schimbat format="bold" în format="display" și adăugat fontWeight în style */}
-        <IxTypography variant="h2" format="display" style={{ color: '#005f73', fontWeight: 'bold' }}>🎛️ EXA360 // SMART CAR WASH</IxTypography>
-        <IxTypography variant="body-sm" style={{ color: '#6c757d' }}>Control de la distanță panou simplificat • Status: Online</IxTypography>
+        <h2 style={{ color: '#005f73', fontWeight: 'bold', margin: '0 0 4px 0', fontSize: '24px' }}>🎛️ EXA360 // SMART CAR WASH</h2>
+        <p style={{ color: '#6c757d', margin: 0, fontSize: '14px' }}>Control de la distanță panou simplificat • Status: Online</p>
       </div>
 
       {/* GRID ZONE - CARDURI ALBE CURATE */}
@@ -34,7 +33,7 @@ export default function SCADASimplu() {
         <IxCard variant="insight" style={{ width: '260px', backgroundColor: '#ffffff', borderTop: '4px solid #00ffff' }}>
           <IxCardContent style={{ padding: '16px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-              <IxTypography variant="label-sm" style={{ color: '#6c757d' }}>DEBIT APĂ (IoT)</IxTypography>
+              <span style={{ color: '#6c757d', fontSize: '12px', fontWeight: '500' }}>DEBIT APĂ (IoT)</span>
               <IxIcon name="drop" size="24" style={{ color: '#00ffff' }} />
             </div>
             <IxKeyValue value={`${volume} m³/h`} labelPosition="top" style={{ fontSize: '24px', fontWeight: 'bold' }} />
@@ -45,7 +44,7 @@ export default function SCADASimplu() {
         <IxCard variant="insight" style={{ width: '280px', backgroundColor: '#ffffff', borderTop: '4px solid #023e8a' }}>
           <IxCardContent style={{ padding: '16px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-              <IxTypography variant="label-sm" style={{ color: '#6c757d' }}>PRESIUNE POMPĂ</IxTypography>
+              <span style={{ color: '#6c757d', fontSize: '12px', fontWeight: '500' }}>PRESIUNE POMPĂ</span>
               <IxIcon name="pulse" size="24" style={{ color: '#023e8a' }} />
             </div>
             <IxKeyValue value={`${presiune} Bar`} labelPosition="top" style={{ fontSize: '24px', fontWeight: 'bold', color: '#023e8a' }} />
@@ -60,10 +59,10 @@ export default function SCADASimplu() {
         <IxCard variant="insight" style={{ width: '280px', backgroundColor: '#ffffff', borderTop: '4px solid #2a9d8f' }}>
           <IxCardContent style={{ padding: '16px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-              <IxTypography variant="label-sm" style={{ color: '#6c757d' }}>SELECTARE PROGRAM</IxTypography>
+              <span style={{ color: '#6c757d', fontSize: '12px', fontWeight: '500' }}>SELECTARE PROGRAM</span>
               <IxIcon name="configuration" size="24" style={{ color: '#2a9d8f' }} />
             </div>
-            <IxTypography variant="body-md" style={{ marginBottom: '12px' }}>Activ: <strong>{program}</strong></IxTypography>
+            <p style={{ margin: '0 0 12px 0', fontSize: '16px' }}>Activ: <strong>{program}</strong></p>
             <div style={{ display: 'flex', gap: '6px' }}>
               <IxButton variant="secondary" size="sm" onClick={() => setProgram('Active Foam')}>Spumă</IxButton>
               <IxButton variant="secondary" size="sm" onClick={() => setProgram('Hot Wax')}>Ceară</IxButton>
