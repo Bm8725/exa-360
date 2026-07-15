@@ -1,41 +1,79 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
+import { IxCard, IxCardContent, IxTypography, IxIcon, IxKeyValue, IxButton } from '@siemens/ix-react';
+import { defineCustomElements } from '@siemens/ix/loader';
 
-export default function DashboardClientDemo() {
-  const [liveVolume, setLiveVolume] = useState<number>(11.45);
-  const [totalWash, setTotalWash] = useState<number>(42);
-  const [earnings, setEarnings] = useState<number>(1340);
+if (typeof window !== 'undefined') defineCustomElements();
 
+export default function SCADASimplu() {
+  const [volume, setVolume] = useState(11.45);
+  const [presiune, setPresiune] = useState(85);
+  const [program, setProgram] = useState('Premium Foam');
+
+  // Simulare senzori IoT în timp real
   useEffect(() => {
-    // Simulăm primirea de date noi din Cloud la fiecare 3 secunde
     const interval = setInterval(() => {
-      const mockVol = parseFloat((8 + Math.random() * 8).toFixed(2));
-      setLiveVolume(mockVol);
-      setTotalWash((prev) => prev + 1);
-      setEarnings((prev) => prev + (mockVol > 12 ? 40 : 30));
-    }, 3000);
+      setVolume(parseFloat((8 + Math.random() * 8).toFixed(2)));
+    }, 2500);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="h-screen bg-slate-950 text-slate-100 font-mono flex flex-col items-center justify-center p-6 gap-6 select-none">
-      <div className="text-center space-y-1"><h1 className="text-sm font-bold tracking-[0.3em] text-cyan-400">EXA360 // CENTRAL MANAGEMENT</h1><p className="text-[10px] text-slate-500">LIVE CLOUD TELEMETRY FEED</p></div>
-      <div className="grid grid-cols-3 gap-4 max-w-lg w-full text-center">
-        <div className="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
-          <div className="text-[9px] text-slate-500 font-bold uppercase">Live Volume</div>
-          <div className="text-xl font-black text-cyan-400">{liveVolume} <span className="text-[10px] text-slate-600">m³</span></div>
-        </div>
-        <div className="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
-          <div className="text-[9px] text-slate-500 font-bold uppercase">Total Wash</div>
-          <div className="text-xl font-black text-white">{totalWash}</div>
-        </div>
-        <div className="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
-          <div className="text-[9px] text-slate-500 font-bold uppercase">Earnings</div>
-          <div className="text-xl font-black text-emerald-400">${earnings}</div>
-        </div>
+    // Fundal gri-deschis curat (#e9ecef), ideal pentru monitorizarea de zi
+    <div style={{ padding: '24px', backgroundColor: '#e9ecef', minHeight: '100vh', fontFamily: 'sans-serif' }}>
+      
+      {/* HEADER PANOU */}
+      <div style={{ backgroundColor: '#ffffff', padding: '16px', borderRadius: '8px', marginBottom: '24px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
+        <IxTypography variant="h2" format="bold" style={{ color: '#005f73' }}>🎛️ EXA360 // SMART CAR WASH</IxTypography>
+        <IxTypography variant="body-sm" style={{ color: '#6c757d' }}>Control de la distanță panou simplificat • Status: Online</IxTypography>
       </div>
-      <div className="flex items-center gap-2 text-[9px] text-emerald-500 bg-emerald-950/30 px-3 py-1 border border-emerald-500/20 rounded-full animate-pulse"><span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />STREAMING_FROM_VERCEL_EDGE</div>
+
+      {/* GRID ZONE - CARDURI ALBE CURATE */}
+      <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+        
+        {/* CARD 1: DEBIT APĂ */}
+        <IxCard variant="insight" style={{ width: '260px', backgroundColor: '#ffffff', borderTop: '4px solid #00ffff' }}>
+          <IxCardContent style={{ padding: '16px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+              <IxTypography variant="label-sm" style={{ color: '#6c757d' }}>DEBIT APĂ (IoT)</IxTypography>
+              <IxIcon name="drop" size="24" style={{ color: '#00ffff' }} />
+            </div>
+            <IxKeyValue value={`${volume} m³/h`} labelPosition="top" style={{ fontSize: '24px', fontWeight: 'bold' }} />
+          </IxCardContent>
+        </IxCard>
+
+        {/* CARD 2: PRESIUNE POMPE (VFD) */}
+        <IxCard variant="insight" style={{ width: '280px', backgroundColor: '#ffffff', borderTop: '4px solid #023e8a' }}>
+          <IxCardContent style={{ padding: '16px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+              <IxTypography variant="label-sm" style={{ color: '#6c757d' }}>PRESIUNE POMPĂ</IxTypography>
+              <IxIcon name="pulse" size="24" style={{ color: '#023e8a' }} />
+            </div>
+            <IxKeyValue value={`${presiune} Bar`} labelPosition="top" style={{ fontSize: '24px', fontWeight: 'bold', color: '#023e8a' }} />
+            <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
+              <IxButton variant="secondary" outline size="sm" onClick={() => setPresiune(70)}>ECO</IxButton>
+              <IxButton variant="secondary" outline size="sm" onClick={() => setPresiune(95)}>TURBO</IxButton>
+            </div>
+          </IxCardContent>
+        </IxCard>
+
+        {/* CARD 3: PROGRAME CHIMICE (PLC WRITE) */}
+        <IxCard variant="insight" style={{ width: '280px', backgroundColor: '#ffffff', borderTop: '4px solid #2a9d8f' }}>
+          <IxCardContent style={{ padding: '16px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+              <IxTypography variant="label-sm" style={{ color: '#6c757d' }}>SELECTARE PROGRAM</IxTypography>
+              <IxIcon name="configuration" size="24" style={{ color: '#2a9d8f' }} />
+            </div>
+            <IxTypography variant="body-md" style={{ marginBottom: '12px' }}>Activ: <strong>{program}</strong></IxTypography>
+            <div style={{ display: 'flex', gap: '6px' }}>
+              <IxButton variant="secondary" size="sm" onClick={() => setProgram('Active Foam')}>Spumă</IxButton>
+              <IxButton variant="secondary" size="sm" onClick={() => setProgram('Hot Wax')}>Ceară</IxButton>
+            </div>
+          </IxCardContent>
+        </IxCard>
+
+      </div>
     </div>
   );
 }
