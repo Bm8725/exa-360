@@ -30,7 +30,6 @@ export default function SCADASimplu() {
       <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
         
         {/* CARD 1: DEBIT APĂ */}
-        {/* CORECTAT: Am șters variant="insight" */}
         <IxCard style={{ width: '260px', backgroundColor: '#ffffff', borderTop: '4px solid #00ffff' }}>
           <IxCardContent style={{ padding: '16px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
@@ -42,7 +41,6 @@ export default function SCADASimplu() {
         </IxCard>
 
         {/* CARD 2: PRESIUNE POMPE (VFD) */}
-        {/* CORECTAT: Am șters variant="insight" */}
         <IxCard style={{ width: '280px', backgroundColor: '#ffffff', borderTop: '4px solid #023e8a' }}>
           <IxCardContent style={{ padding: '16px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
@@ -51,14 +49,14 @@ export default function SCADASimplu() {
             </div>
             <IxKeyValue value={`${presiune} Bar`} labelPosition="top" style={{ fontSize: '24px', fontWeight: 'bold', color: '#023e8a' }} />
             <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
-              <IxButton variant="secondary" outline size="sm" onClick={() => setPresiune(70)}>ECO</IxButton>
-              <IxButton variant="secondary" outline size="sm" onClick={() => setPresiune(95)}>TURBO</IxButton>
+              {/* CORECTAT: Eliminați proprietatea outline neacceptată de IxButton */}
+              <IxButton variant="secondary" onClick={() => setPresiune(70)}>ECO</IxButton>
+              <IxButton variant="secondary" onClick={() => setPresiune(95)}>TURBO</IxButton>
             </div>
           </IxCardContent>
         </IxCard>
 
         {/* CARD 3: PROGRAME CHIMICE (PLC WRITE) */}
-        {/* CORECTAT: Am șters variant="insight" */}
         <IxCard style={{ width: '280px', backgroundColor: '#ffffff', borderTop: '4px solid #2a9d8f' }}>
           <IxCardContent style={{ padding: '16px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
@@ -67,8 +65,8 @@ export default function SCADASimplu() {
             </div>
             <p style={{ margin: '0 0 12px 0', fontSize: '16px' }}>Activ: <strong>{program}</strong></p>
             <div style={{ display: 'flex', gap: '6px' }}>
-              <IxButton variant="secondary" size="sm" onClick={() => setProgram('Active Foam')}>Spumă</IxButton>
-              <IxButton variant="secondary" size="sm" onClick={() => setProgram('Hot Wax')}>Ceară</IxButton>
+              <IxButton variant="secondary" onClick={() => setProgram('Active Foam')}>Spumă</IxButton>
+              <IxButton variant="secondary" onClick={() => setProgram('Hot Wax')}>Ceară</IxButton>
             </div>
           </IxCardContent>
         </IxCard>
