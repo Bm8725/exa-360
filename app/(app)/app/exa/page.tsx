@@ -218,8 +218,8 @@ export default function IndustrialDashboard() {
             S
           </div>
           <div>
-            <div style={{ fontSize: 10, letterSpacing: "0.1em", opacity: 0.75 }}>SIMATIC WinCC — HMI RUNTIME</div>
-            <div style={{ fontSize: 14, fontWeight: 700 }}>AUTOWASH LINE 04 — PROCES OVERVIEW</div>
+            <div style={{ fontSize: 10, letterSpacing: "0.1em", opacity: 0.75 }}>EXA 360 AUTOMATIC WASH CAR</div>
+            <div style={{ fontSize: 14, fontWeight: 700 }}>AUTOWASH LINE 01 — PROCES OVERVIEW, TARGOVISTE, DAMBOBITA, ROMANIA</div>
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 18, fontSize: 11 }}>
