@@ -1,14 +1,17 @@
 {
-  "name": "exa-360",
+  "name": "exa-ecosystem",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "tsx node_modules/vite/bin/vite.js dev --port 3001",
-    "build": "vite build",
-    "start": "vite preview",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "lint": "eslint",
+    "dev:vinext": "vite dev --port 3001",
+    "build:vinext": "vite build",
+    "start:vinext": "vite preview",
     "deploy:vinext": "vinext-cloudflare deploy --warm-cache",
-    "deploy:response-store": "cf deploy --prebuilt --mode production --worker exa-360-response-store"
+    "deploy:response-store": "cf deploy --prebuilt --mode production --worker exa-ecosystem-response-store"
   },
   "dependencies": {
     "@cloudflare/workers-response-store": "^1.0.0",
@@ -37,7 +40,6 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
     "tailwindcss": "^4",
-    "tsx": "^4.19.1",
     "typescript": "^5",
     "vite": "^8.3.0"
   },
